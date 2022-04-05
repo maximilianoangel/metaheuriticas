@@ -20,7 +20,7 @@ def summation(matriz,fila,columna,i): #suma y decide si poner o no la reina
         sumatoria1 += matriz[contador_fila][columna]
         contador_fila += 1
     contador_fila = 0 
-    while contador_columna <= columna: # suma la fila
+    while contador_columna <i: # suma la fila
         sumatoria2 += matriz[fila][contador_columna]
         contador_columna += 1
     contador_columna = columna
@@ -69,8 +69,6 @@ def solver_complement(matriz,filaF,columnaF,i):
         Mvar=summation(mat,fila,columna,i)
         if Mvar==0:
             mat[fila][columna]=1
-            print("complemento "+str(mat))
-            print("lugar "+str(fila)+" "+str(columna))
             if columna<i and fila<i:
                 columna=columna+1
         elif Mvar==1:
@@ -81,26 +79,31 @@ def solver_complement(matriz,filaF,columnaF,i):
         if columna%i==0 and fila<i-1 and columna!=0:
             fila=fila+1
             columna=0
-        if filaF+1==fila and columnaF+1==columna:
+        if filaF==fila and columnaF==columna:
             break
     return mat
 
 def solver(i,fila,columna,iteracion): #hace los llamados para generar la matriz y calcular si poner o no la reina
     matriz=matriz_generator(i)
-    aux=(i*i)
+    aux=True
     filaI=fila
     ColumnaI=columna
     print("iteracion " + str(iteracion))
-    while True:
-        print("fila " + str(fila))
+    while aux:
+        if fila==i and columna==0:
+            aux=False
+        print("fila "+str(fila))
+        print("columna "+str(columna))
         Mvar=summation(matriz,fila,columna,i)
         if Mvar==0:
             matriz[fila][columna]=1
             print(matriz)
-            if columna<i and fila<i:
+            if columna<i and fila<i and columna+1!=i:
                 print("columa "+ str(columna))
                 columna=columna+1
-            if int(sum(sum(matriz)))==1 and filaI>0:
+            elif columna+1==i:
+                columna=i
+            if int(sum(sum(matriz)))==1 and filaI>0 and filaI<i and ColumnaI<i:
                 matriz=solver_complement(matriz,filaI,ColumnaI,i)
         elif Mvar==1:
             if columna<i and fila<i:
@@ -111,7 +114,9 @@ def solver(i,fila,columna,iteracion): #hace los llamados para generar la matriz 
         if columna%i==0 and fila<i-1 and columna!=0:
             fila=fila+1
             columna=0
-        if fila+1==i and columna+1==i:
+        if columna==i and fila+1==i:
+            break
+        if fila==i-1 and columna==i-1:
             break
     if sum(sum(matriz))==i:
         print ("solucion!!")
@@ -132,6 +137,6 @@ def solver(i,fila,columna,iteracion): #hace los llamados para generar la matriz 
     if iteracion==aux:
         return matriz
 i=4
-solver(8,0,0,0)
+solver(9,0,0,0)
 
 
