@@ -1,5 +1,6 @@
 import numpy as np
 import time
+import matplotlib.pyplot as plt
 
 class Nodo:
     def __init__(self, matriz, orden, padre, fila, columna):
@@ -124,22 +125,29 @@ def resolver(orden,iteracion):
             print("--------------------------------")
 
             break
-
-
-
-
-
-
-
+    return float(tiempo_final)
 
 if __name__ == '__main__':
     n=4
     iteracion=1
+    tiempos = []
     start=time.time()
     while True:
-        resolver(n,iteracion)
+        tiempo = resolver(n,iteracion)
         n=n+1
         iteracion=iteracion+1
         end=time.time()
-        if float(format(end-start))>=10:
+        tiempos.append(tiempo)
+        if float(format(end-start))>=180:
             break
+    coronas = []
+    for i in range(0, len(tiempos)):
+        coronas.append(i +4)
+    print(tiempos)
+    plt.bar(coronas, tiempos, color = 'cyan', label = 'Tiempos')
+    plt.xlabel('Numero de reinas')
+    plt.ylabel('Tiempo [s]')
+    plt.title('Tiempo para relver problema N reinas / N^2')
+    plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+    plt.tight_layout(rect=[0,0,1,1])
+    plt.show()
